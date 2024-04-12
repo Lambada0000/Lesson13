@@ -23,5 +23,5 @@ def Product_Battery():
 def test_init2(Product_Battery):
     assert Product_Battery.title == 'Батарея'
     assert Product_Battery.descriptions == 'Автономный источник постоянного тока'
-    assert Product_Battery.pay == 100
+    assert Product_Battery.price == 100
     assert Product_Battery.quantity == 200

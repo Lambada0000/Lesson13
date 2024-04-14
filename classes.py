@@ -36,43 +36,40 @@ class Category:
 class Product:
     title: str
     descriptions: str
-    pay: float
+    price: float
     quantity: int
 
     def __init__(self, title, descriptions, price, quantity):
         self.title = title
         self.descriptions = descriptions
-        self.price = price
+        self.__price = price
         self.quantity = quantity
 
     @classmethod
-    def create_product(self, title, descriptions, price, quantity):
+    def create_product(cls, title, descriptions, price, quantity):
         """
         отразил создание товара и возвращение объекта,
         который можно добавлять в список товаров
         """
-        if title in self.title:
-            self.quantity += quantity
+        if title in cls.title:
+            cls.quantity += quantity
         else:
-            return title, descriptions, price, quantity
+            return cls(title, descriptions, price, quantity)
 
-    # @price.setter
-    # def price(self, new_price):
-    #     """
-    #     реализовал метод для проверки введенной цены
-    #     """
-    #     if new_price <= 0:
-    #         print('Цена введена некорректно')
-    #     else:
-    #         self.price = new_price
+    @property
+    def new_price(self):
+        return self.__price
 
-    @price.setter
-    def price(self, new_price):
-        if new_price <= self.price:
+    @new_price.setter
+    def new_price(self, price):
+        if price <= self.__price:
             print('Вы действительно хотите понизить цену? (y/n):')
-            if int('y'):
-                self.price = new_price
+            if input('y'):
+                self.__price = price
+            if input('n'):
+                print('Введите цену заново')
+                return
             else:
                 print('Попробуйте еще раз')
         else:
-            self.price = new_price
+            self.__price = price

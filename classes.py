@@ -62,7 +62,7 @@ class Product:
 
     @new_price.setter
     def new_price(self, price):
-        if price <= self.__price:
+        if self.__price >= price > 0:
             print('Вы действительно хотите понизить цену? (y/n):')
             if input('y'):
                 self.__price = price
@@ -71,5 +71,7 @@ class Product:
                 return
             else:
                 print('Попробуйте еще раз')
-        else:
+        if price > self.__price:
             self.__price = price
+        if price < 0:
+            print('Введите корректную цену')

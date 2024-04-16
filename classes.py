@@ -19,6 +19,12 @@ class Category:
             for _ in category.products:
                 self.total_unique_product += 1
 
+    def __len__(self):  # Подсчитывает количество продуктов на складе
+        return len(self.__products)
+
+    def __str__(self):  # 1 задание
+        return f'{self.title}, количество продуктов: {self.__len__()} шт.'
+
     def new_product(self, product):
         """отразил метод добавления товара в список"""
         self.total_unique_product += 1
@@ -44,6 +50,12 @@ class Product:
         self.descriptions = descriptions
         self.__price = price
         self.quantity = quantity
+
+    def __str__(self):  # 1 задание
+        return f'{self.title}, {self.__price} руб. Остаток: {self.quantity} шт.'
+
+    def __add__(self, other):  # 2 задание
+        return self.quantity * self.__price + other.quantity * other.__price
 
     @classmethod
     def create_product(cls, title, descriptions, price, quantity):
@@ -75,3 +87,17 @@ class Product:
             self.__price = price
         if price < 0:
             print('Введите корректную цену')
+
+
+class Product_Iterator(Category):  # Доп задание
+
+    def __init__(self, title):
+        self.title = title
+
+
+    def __iter__(self):
+        return self
+
+    def __next__(self):
+        for product in self.products:
+            return product

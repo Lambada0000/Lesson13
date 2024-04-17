@@ -9,26 +9,27 @@ class Category:
     def __init__(self, title, descriptions, products):
         self.title = title
         self.descriptions = descriptions
-        self.__products = products  # сделал список товаров приватным атрибутом
+        self.__products = products
         self.all_categories.append(self)
         self.total_category = 0
         self.total_unique_product = 0
 
         for category in self.all_categories:
             self.total_category += 1
-            for _ in category.products:
+            for _ in category.__products:
                 self.total_unique_product += 1
 
-    def __len__(self):  # Подсчитывает количество продуктов на складе
+    def __len__(self):
         return len(self.__products)
 
-    def __str__(self):  # 1 задание
+    def __str__(self):
         return f'{self.title}, количество продуктов: {self.__len__()} шт.'
 
-    def new_product(self, product):
-        """отразил метод добавления товара в список"""
-        self.total_unique_product += 1
-        return self.__products.append(product)
+    def new_product(self, product):  # 3 задание
+        if isinstance(product, Product):
+            self.total_unique_product += 1
+            return self.__products.append(product)
+        raise ValueError('Продукт не соответствует классу')
 
     @property
     def list_products(self):
@@ -51,10 +52,10 @@ class Product:
         self.__price = price
         self.quantity = quantity
 
-    def __str__(self):  # 1 задание
+    def __str__(self):
         return f'{self.title}, {self.__price} руб. Остаток: {self.quantity} шт.'
 
-    def __add__(self, other):  # 2 задание
+    def __add__(self, other):
         return self.quantity * self.__price + other.quantity * other.__price
 
     @classmethod
@@ -94,10 +95,41 @@ class Product_Iterator(Category):  # Доп задание
     def __init__(self, title):
         self.title = title
 
-
     def __iter__(self):
         return self
 
     def __next__(self):
         for product in self.products:
             return product
+
+
+class Smartphone(Product):
+    efficiency = str
+    model = str
+    memory = int
+    color = str
+
+    def __init__(self, title, descriptions, price, quantity, efficiency, model, memory, color):  # 1 задание
+        super().__init__(title, descriptions, price, quantity)
+        self.efficiency = efficiency
+        self.model = model
+        self.memory = memory
+        self.color = color
+
+    def __add__(self, other):  # 2 задание
+        if isinstance(other, Smartphone):
+            return self.quantity * self.__price + other.quantity * other.__price
+        raise ValueError('Продукты принадлежат разным классам')
+
+
+class LawnGrass(Product):
+    def __init__(self, title, descriptions, price, quantity, country, period, color):  # 1 задание
+        super().__init__(title, descriptions, price, quantity)
+        self.country = country
+        self.period = period
+        self.color = color
+
+    def __add__(self, other):  # 2 задание
+        if isinstance(other, LawnGrass):
+            return self.quantity * self.__price + other.quantity * other.__price
+        raise ValueError('Продукты принадлежат разным классам')

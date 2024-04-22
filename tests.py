@@ -1,4 +1,5 @@
-from classes import Category, Product, Smartphone, LawnGrass
+from class_Category import Category
+from class_Product import Product, Smartphone, LawnGrass
 import pytest
 
 
@@ -8,12 +9,15 @@ def Category_electronics():
                     'Компоненты, необходимые для работоспособности разных электрических приборов',
                     ['Батарея', 'Лампочка', 'Микросхема'])
 
+
 def test_init1(Category_electronics):
     assert Category_electronics.title == 'Электроника'
-    assert Category_electronics.descriptions == 'Компоненты, необходимые для работоспособности разных электрических приборов'
+    assert Category_electronics.descriptions == ('Компоненты, необходимые для работоспособности разных электрических '
+                                                 'приборов')
     assert Category_electronics.products == ['Батарея', 'Лампочка', 'Микросхема']
     assert Category_electronics.total_category == 1
     assert Category_electronics.total_unique_product == 3
+
 
 @pytest.fixture
 def Product_Battery():
@@ -33,7 +37,8 @@ def Product_Smartphone():
                       'Titanium design, ceramic shield front, textured matte glass back',
                       120000,
                       100,
-                      'A17 Pro chip, new 6‑core CPU with 2 performance and 4 efficiency cores, new 6‑core GPU, new 16‑core Neural Engine',
+                      'A17 Pro chip, new 6‑core CPU with 2 performance and 4 efficiency cores, new 6‑core GPU, '
+                      'new 16‑core Neural Engine',
                       'Pro Max',
                       512,
                       'Black Titanium')
@@ -44,7 +49,8 @@ def test_init3(Product_Smartphone):
     assert Product_Smartphone.descriptions == 'Titanium design, ceramic shield front, textured matte glass back'
     assert Product_Smartphone.price == 120000
     assert Product_Smartphone.quantity == 100
-    assert Product_Smartphone.efficiency == 'A17 Pro chip, new 6‑core CPU with 2 performance and 4 efficiency cores, new 6‑core GPU, new 16‑core Neural Engine'
+    assert Product_Smartphone.efficiency == ('A17 Pro chip, new 6‑core CPU with 2 performance and 4 efficiency cores, '
+                                             'new 6‑core GPU, new 16‑core Neural Engine')
     assert Product_Smartphone.model == 'Pro Max'
     assert Product_Smartphone.memory == 512
     assert Product_Smartphone.color == 'Black Titanium'

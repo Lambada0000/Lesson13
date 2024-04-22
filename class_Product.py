@@ -1,52 +1,38 @@
-class Category:
-    title: str
-    descriptions: str
-    products: list
-    all_categories = []
-    total_category: int
-    total_unique_product: int
-
-    def __init__(self, title, descriptions, products):
-        self.title = title
-        self.descriptions = descriptions
-        self.__products = products
-        self.all_categories.append(self)
-        self.total_category = 0
-        self.total_unique_product = 0
-
-        for category in self.all_categories:
-            self.total_category += 1
-            for _ in category.__products:
-                self.total_unique_product += 1
-
-    def __len__(self):
-        return len(self.__products)
-
-    def __str__(self):
-        return f'{self.title}, количество продуктов: {self.__len__()} шт.'
-
-    def new_product(self, product):  # 3 задание
-        if isinstance(product, Product):
-            self.total_unique_product += 1
-            return self.__products.append(product)
-        raise ValueError('Продукт не соответствует классу')
-
-    @property
-    def list_products(self):
-        """отразил метод добавления геттера"""
-        output = ''
-        for product in self.__products:
-            output = f'{product.name}, {product.pay} руб. Остаток: {product.quantity}\n'
-        return output
+from abc import ABC, abstractmethod
 
 
-class Product:
-    title: str
-    descriptions: str
-    price: float
-    quantity: int
+class Base_Product(ABC):  # 1 задание
+    """
+    Абстрактный базовый класс, отображающий некоторый общий функционал его дочерних классов
+    """
+
+    @abstractmethod
+    def __init__(self):
+        pass
+
+    def __add__(self, other):
+        pass
+
+
+class MixinLog:  # 2 задание
+    """
+    Миксин для вывода всей информации о созданном объекте
+    """
+    def __init__(self):
+        print(repr(self))
+
+    def __repr__(self):
+        return f"{self.__class__.__name__}({self.__dict__.items()})"
+
+
+class Product(Base_Product, MixinLog):
+    title: str         # Название товара
+    descriptions: str  # Описание товара
+    price: float       # Цена товара
+    quantity: int      # Количество в наличии
 
     def __init__(self, title, descriptions, price, quantity):
+        super().__init__()
         self.title = title
         self.descriptions = descriptions
         self.__price = price
@@ -90,24 +76,11 @@ class Product:
             print('Введите корректную цену')
 
 
-class Product_Iterator(Category):  # Доп задание
-
-    def __init__(self, title):
-        self.title = title
-
-    def __iter__(self):
-        return self
-
-    def __next__(self):
-        for product in self.products:
-            return product
-
-
-class Smartphone(Product):
-    efficiency = str
-    model = str
-    memory = int
-    color = str
+class Smartphone(Product, Base_Product, MixinLog):
+    efficiency = str  # Производительность
+    model = str       # Модель
+    memory = int      # Емкость внутренней памяти
+    color = str       # Цвет
 
     def __init__(self, title, descriptions, price, quantity, efficiency, model, memory, color):  # 1 задание
         super().__init__(title, descriptions, price, quantity)
@@ -116,20 +89,23 @@ class Smartphone(Product):
         self.memory = memory
         self.color = color
 
-    def __add__(self, other):  # 2 задание
+    def __add__(self, other):
         if isinstance(other, Smartphone):
             return self.quantity * self.__price + other.quantity * other.__price
         raise ValueError('Продукты принадлежат разным классам')
 
 
-class LawnGrass(Product):
+class LawnGrass(Product, Base_Product, MixinLog):
+    country: str  # Страна - производитель
+    period: int   # Срок прорастания
+    color: str    # Цвет
     def __init__(self, title, descriptions, price, quantity, country, period, color):  # 1 задание
         super().__init__(title, descriptions, price, quantity)
         self.country = country
         self.period = period
         self.color = color
 
-    def __add__(self, other):  # 2 задание
+    def __add__(self, other):
         if isinstance(other, LawnGrass):
             return self.quantity * self.__price + other.quantity * other.__price
         raise ValueError('Продукты принадлежат разным классам')

@@ -6,26 +6,27 @@ class Base_Product(ABC):  # 1 задание
     Абстрактный базовый класс, отображающий некоторый общий функционал его дочерних классов
     """
 
-    @abstractmethod
-    def __init__(self):
-        pass
-
-    def __add__(self, other):
+    @classmethod
+    def create_product(cls, title, descriptions, price, quantity):
         pass
 
 
-class MixinLog:  # 2 задание
+class PrintMixin:
     """
     Миксин для вывода всей информации о созданном объекте
     """
-    def __init__(self):
+
+    def __init__(self, *args):
         print(repr(self))
 
     def __repr__(self):
-        return f"{self.__class__.__name__}({self.__dict__.items()})"
+        object_attributes = ''
+        for k, v in self.__dict__.items():
+            object_attributes += f'{k}: {v},'
+        return f"создан объект со свойствами {object_attributes})"
 
 
-class Product(Base_Product, MixinLog):
+class Product(Base_Product, PrintMixin):
     title: str         # Название товара
     descriptions: str  # Описание товара
     price: float       # Цена товара
@@ -76,7 +77,7 @@ class Product(Base_Product, MixinLog):
             print('Введите корректную цену')
 
 
-class Smartphone(Product, Base_Product, MixinLog):
+class Smartphone(Product, PrintMixin):
     efficiency = str  # Производительность
     model = str       # Модель
     memory = int      # Емкость внутренней памяти
@@ -95,10 +96,11 @@ class Smartphone(Product, Base_Product, MixinLog):
         raise ValueError('Продукты принадлежат разным классам')
 
 
-class LawnGrass(Product, Base_Product, MixinLog):
+class LawnGrass(Product, PrintMixin):
     country: str  # Страна - производитель
     period: int   # Срок прорастания
     color: str    # Цвет
+
     def __init__(self, title, descriptions, price, quantity, country, period, color):  # 1 задание
         super().__init__(title, descriptions, price, quantity)
         self.country = country

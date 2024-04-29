@@ -7,7 +7,11 @@ class Base_Product(ABC):  # 1 задание
     """
 
     @classmethod
+    @abstractmethod
     def create_product(cls, title, descriptions, price, quantity):
+        """
+        Абстрактный метод для создания продукта
+        """
         pass
 
 

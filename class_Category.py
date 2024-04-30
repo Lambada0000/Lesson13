@@ -39,7 +39,7 @@ class Category:
         """отразил метод добавления геттера"""
         output = ''
         for product in self.__products:
-            output = f'{product.name}, {product.pay} руб. Остаток: {product.quantity}\n'
+            output = f'{product.title}, {product.price} руб. Остаток: {product.quantity}\n'
         return output
 
 

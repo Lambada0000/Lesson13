@@ -29,10 +29,25 @@ class Category:
         return f'{self.title}, количество продуктов: {self.__len__()} шт.'
 
     def new_product(self, product):
-        if isinstance(product, Product):
-            self.total_unique_product += 1
-            return self.__products.append(product)
-        raise ValueError('Продукт не соответствует классу')
+        '''
+        Сначала проверяются все условия для добавления продукта
+        '''
+        if not isinstance(product, Product):
+            raise TypeError('Продукт не соответствует классу')
+        elif product.quantity == 0:
+            raise ValueError('Продукт с нулевым количеством не может быть добавлен')
+        self.total_unique_product += 1
+        return self.__products.append(product)
+
+    def average_price(self):
+        try:
+            total_price = 0
+            for product in self.__products:
+                total_price += product.price
+                average_price = total_price/len(self.__products)
+                return average_price
+        except ZeroDivisionError:
+            return 0
 
     @property
     def list_products(self):
@@ -43,8 +58,7 @@ class Category:
         return output
 
 
-class Product_Iterator(Category):  # Доп задание
-
+class Product_Iterator(Category):
     def __init__(self, title, descriptions, products):
         super().__init__(title, descriptions, products)
         self.title = title

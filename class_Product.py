@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 
 
-class Base_Product(ABC):  # 1 задание
+class Base_Product(ABC):
     """
     Абстрактный базовый класс, отображающий некоторый общий функционал его дочерних классов
     """

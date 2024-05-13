@@ -44,7 +44,7 @@ class Category:
             total_price = 0
             for product in self.__products:
                 total_price += product.price
-                average_price = total_price/len(self.__products)
+                average_price = total_price/len(self)
                 return average_price
         except ZeroDivisionError:
             return 0
